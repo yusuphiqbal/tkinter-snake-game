@@ -57,6 +57,20 @@ def next_turn(snake, food):
 
     window.after(REFRESH_IN_MS, next_turn, snake, food)
 
+
+def change_direction(new_direction):
+    global direction
+
+    if  new_direction == 'left' and direction != 'right':
+        direction = new_direction
+    elif new_direction == 'right' and direction != 'left':
+        direction = new_direction
+    elif new_direction == 'up' and direction != 'down':
+        direction = new_direction
+    elif new_direction == 'down' and direction != 'up':
+        direction = new_direction
+
+
 window = Tk()
 window.title('Snake')
 window.resizable(False, False)
@@ -65,6 +79,11 @@ canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDT
 canvas.pack()
 
 window.update()
+
+window.bind('<Left>', lambda event: change_direction('left'))
+window.bind('<Right>', lambda event: change_direction('right'))
+window.bind('<Up>', lambda event: change_direction('up'))
+window.bind('<Down>', lambda event: change_direction('down'))
 
 food = Food()
 snake = Snake()
