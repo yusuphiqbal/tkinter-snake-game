@@ -8,6 +8,9 @@ BACKGROUND_COLOR = '#073b4c'
 FOOD_COLOR='#ef476f'
 BODY_PARTS = 3
 SNAKE_COLOR = '#06d6a0'
+REFRESH_IN_MS = 150
+
+direction = 'down'
 
 
 class Food:
@@ -32,6 +35,28 @@ class Snake:
             self.squares.append(square)
 
 
+def next_turn(snake, food):
+    x, y = snake.coordinates[0]
+
+    if direction == 'up':
+        y -= GRID_SIZE
+    elif direction == 'down':
+        y += GRID_SIZE
+    elif direction == 'left':
+        x -= GRID_SIZE
+    elif direction == 'right':
+        x += GRID_SIZE
+
+    snake.coordinates.insert(0, (x, y))
+    square = canvas.create_rectangle(x, y, x + GRID_SIZE, y + GRID_SIZE, fill=SNAKE_COLOR, width=0)
+    snake.squares.insert(0, square)
+    
+    del snake.coordinates[-1]
+    canvas.delete(snake.squares[-1])
+    del snake.squares[-1]
+
+    window.after(REFRESH_IN_MS, next_turn, snake, food)
+
 window = Tk()
 window.title('Snake')
 window.resizable(False, False)
@@ -43,6 +68,8 @@ window.update()
 
 food = Food()
 snake = Snake()
+
+next_turn(snake, food)
 
 if __name__ == '__main__':
     window.mainloop()
