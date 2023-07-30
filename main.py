@@ -50,10 +50,16 @@ def next_turn(snake, food):
     snake.coordinates.insert(0, (x, y))
     square = canvas.create_rectangle(x, y, x + GRID_SIZE, y + GRID_SIZE, fill=SNAKE_COLOR, width=0)
     snake.squares.insert(0, square)
+
+    if x == food.coordinates[0] and y == food.coordinates[1]:
+        canvas.delete('food')
+        food = Food()
+    else:
+        del snake.coordinates[-1]
+        canvas.delete(snake.squares[-1])
+        del snake.squares[-1]
+
     
-    del snake.coordinates[-1]
-    canvas.delete(snake.squares[-1])
-    del snake.squares[-1]
 
     window.after(REFRESH_IN_MS, next_turn, snake, food)
 
