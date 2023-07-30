@@ -1,5 +1,5 @@
 from random import randint
-from tkinter import Canvas, Tk
+from tkinter import ALL, Canvas, Tk
 
 GAME_HEIGHT = 500
 GAME_WIDTH = 500
@@ -49,7 +49,8 @@ def check_collisions(snake):
 
 
 def game_over():
-    pass
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width() / 2, canvas.winfo_height() / 2, text='Game Over', fill='#ffd166')
 
 
 def next_turn(snake, food):
